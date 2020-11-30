@@ -1,31 +1,14 @@
-/*********
-  Rui Santos
-  Complete project details at https://randomnerdtutorials.com  
-*********/
-
-#include <oled.h>
-
-oled screen(1, WHITE, 0, 10);
-
-void setup() {
-  Serial.begin(9600);
-
-  Serial.println("starting display");
-  screen.printMessage("message 1");
-  delay(2000);
-
-  Serial.println("displaying second message");
-  screen.clearDisplay();
-  screen.printMessage("message 2");
-  delay(2000);
-
-  Serial.println("displaying third message");
-  screen.clearDisplay();
-  screen.printMessage("message 3");
-  delay(2000);
-
-  screen.clearDisplay();
-}
-
-void loop() {
+const int selectPins[3] = {14, 13, 12}; // S-pins to Arduino pins: S0~2, S1~3, S2~4
+...
+// The selectMuxPin function sets the S0, S1, and S2 pins to select the give pin
+void selectMuxPin(byte pin)
+{
+  if (pin > 7) return; // Exit if pin is out of scope
+  for (int i=0; i<3; i++)
+  {
+    if (pin & (1<<i))
+      digitalWrite(selectPins[i], HIGH);
+    else
+      digitalWrite(selectPins[i], LOW);
+  }
 }
